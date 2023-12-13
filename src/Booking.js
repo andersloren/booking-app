@@ -3,25 +3,28 @@ import axios from "axios";
 
 const Booking = () => {
   const baseURL = "http://localhost:8080";
-  const startDate = "2023-12-12";
-  const endDate = "2023-12-12";
 
   const [bookings, setBookings] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
 
-  //   const getBookings = async () => {
-  //     await axios
-  //       .get(`${baseURL}/api/v1/booking/from/${startDate}/to/${endDate}`)
-  //       .then((response) => {
-  //         console.log("RESPONSE:", response);
-  //         if (response.status === 200) {
-  //           console.log("DATA:", response.data);
-  //           setBookings(response.data);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.log("ERROR:", error);
-  //       });
+  const formatDate = (date) => {
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    day = day < 10 ? '0' + day : day;
+    month = day < 10 ? '0' + month : month;
+    
+    return `${year}-${month}-${day}`;
+
+  };
+
+  const today = new Date();
+  const startDate = formatDate(today);
+  const endDate = formatDate(today);
+
+  console.log(startDate);
+  console.log(endDate);
 
   const getBookings = async () => {
     try {
