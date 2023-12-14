@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BookingForm from "./BookingForm";
+import TimeSlot from "./TimeSlot";
 
 const Booking = () => {
   const baseURL = "http://localhost:8080";
@@ -53,8 +54,6 @@ const Booking = () => {
     }
   };
 
-
-
   useEffect(() => {
     getBookings();
   }, []);
@@ -70,21 +69,7 @@ const Booking = () => {
         )}
         <div className="row"></div>
         {bookings.map((booking) => (
-          <div key={booking.id} className="card mb-4 col-md-3">
-            <div className="card-body">
-              <p className="card-text">DateTime: {booking.dateTime}</p>
-            </div>
-            <div className="d-grid card-footer">
-              <button
-                type="button"
-                className={`btn btn-${booking.booked ? "danger" : "success"}`}
-                onClick={() => handleClick(booking)}
-                disabled={booking.booked}
-              >
-                {booking.booked ? "Booked" : "Available"}
-              </button>
-            </div>
-          </div>
+          <TimeSlot handleClick={handleClick} booking={booking} />
         ))}
         <BookingForm
           selectedBooking={selectedBooking}
