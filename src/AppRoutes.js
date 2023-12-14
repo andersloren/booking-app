@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import Header from "./Header";
 import Home from "./Home";
-import Booking from "./Booking";
+import Booking from "./booking/Booking";
 import CancelBooking from "./CancelBooking";
 import About from "./About";
 
@@ -20,7 +20,7 @@ const AppRoutes = () => {
         <Header />
         <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/booking-list" element={<Booking />} />
+          <Route path="/booking" element={<Booking />} />
           <Route path="/cancel-booking" element={<CancelBooking />} />
           <Route path="/about" element={<About />} />
         </Routes>

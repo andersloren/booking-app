@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import BookingForm from "./BookingForm";
 
 const Booking = () => {
   const baseURL = "http://localhost:8080";
 
   const [bookings, setBookings] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
-  const [visible, setVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const formatDate = (date) => {
     let day = date.getDate();
@@ -31,12 +32,12 @@ const Booking = () => {
   };
 
   const visibleClickHandler = () => {
-    setVisible(!visible);
+    setIsVisible(!isVisible);
   };
 
   const handleClick = (booking) => {
     bookingClickHandler(booking);
-    if (!visible) visibleClickHandler();
+    if (!isVisible) visibleClickHandler();
   };
 
   const getBookings = async () => {
@@ -83,41 +84,11 @@ const Booking = () => {
             </div>
           </div>
         ))}
-
-        {visible && (
-          <div className="card">
-            <h3>Booking</h3>
-            <div class="mb-3 mt-3">
-              <label for="email" class="form-label">
-                Email:
-              </label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                placeholder="Enter email"
-                name="email"
-              />
-            </div>
-            <button
-              type="submit"
-              class="btn btn-primary"
-              onClick={visibleClickHandler}
-            >
-              Submit
-            </button>
-            <div className="card mx-5 my-3">Booking Details</div>
-            {selectedBooking ? (
-              <>
-                <div>ID: {selectedBooking.id}</div>
-                <div>Date: {selectedBooking.dateTime}</div>
-                <div>Time: {selectedBooking.dateTime}</div>
-              </>
-            ) : (
-              <div>No booking selected</div>
-            )}
-          </div>
-        )}
+        <BookingForm
+          selectedBooking={selectedBooking}
+          isVisible={isVisible}
+          visibleClickHandler={visibleClickHandler}
+        />
       </div>
     </div>
   );
