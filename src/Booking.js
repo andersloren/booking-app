@@ -26,6 +26,19 @@ const Booking = () => {
   console.log(startDate);
   console.log(endDate);
 
+  const bookingClickHandler = (booking) => {
+    setSelectedBooking(booking);
+  };
+
+  const visibleClickHandler = () => {
+    setVisible(!visible);
+  };
+
+  const handleClick = (booking) => {
+    bookingClickHandler(booking);
+    if (!visible) visibleClickHandler();
+  };
+
   const getBookings = async () => {
     try {
       const response = await axios.get(
@@ -38,19 +51,6 @@ const Booking = () => {
       console.error("Error fetching bookings:", error);
     }
   };
-
-  const bookingClickHandler = (booking) => {
-    setSelectedBooking(booking);
-  };
-
-  const visibleClickHandler = () => {
-    setVisible(!visible);
-  }
-
-  const handleClick = (booking) => {
-    bookingClickHandler(booking);
-    visibleClickHandler();
-  }
 
   useEffect(() => {
     getBookings();
