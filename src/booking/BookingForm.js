@@ -1,23 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const BookingForm = ( { selectedBooking, isVisible, visibleClickHandler } ) => {
+const BookingForm = ({ selectedBooking, isVisible, visibleClickHandler }) => {
   const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
 
-  const handleEmailChange = (event) => {
-    console.log("handleEmailChange start");
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // const isValid = emailRegex.test(event.target.value);
-    if (true) {
-      setEmail(event.target.value);
-      console.log(email);
-    } else {
-      console.log("Please enter a valid email address");
-    }
+  const emailValidation = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailRegex.test(email);
+    if (isValid) setIsEmailValid(true);
   };
 
-  const submitHandler = async () => {
-    visibleClickHandler();
-    console.log("Email has been submitted", email);
+  const submitHandler = (event) => {
+    event.preventDefault();
+    setEmail(event.target.elements.email.value);
+    emailValidation();
+    if (isEmailValid) {
+      // /api/v1/booking/book/{id}/{email}
+      // change available to red booked
+      visibleClickHandler();
+    }
   };
 
   return (
@@ -29,23 +30,20 @@ const BookingForm = ( { selectedBooking, isVisible, visibleClickHandler } ) => {
             <label htmlFor="email" className="form-label">
               Email:
             </label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              placeholder="Enter email"
-              name="email"
-              value={email}
-              onChange={handleEmailChange}
-            />
+            <form onSubmit={submitHandler}>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                placeholder="Enter email"
+                name="email"
+              />
+              {/* <div>{emailValidation ? "" : "Email is invalid"}</div> */}
+              <button type="submit" className="btn btn-primary">
+                Submit
+              </button>
+            </form>
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={submitHandler}
-          >
-            Submit
-          </button>
           <div className="card mx-5 my-3">Booking Details</div>
           {selectedBooking ? (
             <>
