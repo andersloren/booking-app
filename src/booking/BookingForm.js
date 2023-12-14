@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { baseURL } from "../util/constants";
 import { useNavigate, useParams } from "react-router-dom";
-
 
 const BookingForm = () => {
   const [email, setEmail] = useState("");
@@ -11,20 +10,17 @@ const BookingForm = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  useEffect(() => {
-  }, []);
-
   const saveBooking = async () => {
     console.log(params.id);
     console.log("This is the email:", email);
     try {
       const response = await axios.post(`${baseURL}/api/v1/booking/book`, {
         id: params.id,
-        email: email
+        email: email,
       });
       if (response.status === 201) {
         setReciept(response.data);
-        console.log(reciept.data);
+        console.log(reciept);
       }
     } catch (error) {
       console.error("Error fetching bookings:", error);
@@ -36,15 +32,15 @@ const BookingForm = () => {
     console.log("emailValidation");
     if (emailValidation) {
       saveBooking();
-      console.log("saved booking")
-      navigate('/booking-list');
+      console.log("saved booking");
+      navigate("/booking-list");
     } else {
-      console.log('invalid email')
+      console.log("invalid email");
     }
   };
 
   const emailValidation = () => {
-    console.log('Lets validate!')
+    console.log("Lets validate!");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
