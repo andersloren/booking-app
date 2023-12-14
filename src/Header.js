@@ -26,13 +26,13 @@ const Header = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/booking">
-                  Booking
+                <a className="nav-link" href="/booking-list">
+                  Booking List
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/cancel-booking">
-                  Cancel Booking
+                <a className="nav-link" href="/booking-cancel">
+                  Booking Cancel
                 </a>
               </li>
               <li className="nav-item">

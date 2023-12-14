@@ -1,9 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const TimeSlot = ( { handleClick, booking } ) => {
+const TimeSlot = ({ booking }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/bookingform/" + booking.id);
+  };
+
   return (
-    <div>
-      <div key={booking.id} className="card mb-4 col-md-3">
+    <>
+      <div className="card mb-4 col-md-3">
         <div className="card-body">
           <p className="card-text">DateTime: {booking.dateTime}</p>
         </div>
@@ -11,14 +18,14 @@ const TimeSlot = ( { handleClick, booking } ) => {
           <button
             type="button"
             className={`btn btn-${booking.booked ? "danger" : "success"}`}
-            onClick={() => handleClick(booking)}
+            onClick={handleClick}
             disabled={booking.booked}
           >
             {booking.booked ? "Booked" : "Available"}
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

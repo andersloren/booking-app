@@ -1,61 +1,81 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { baseURL } from "../util/constants";
+import { useNavigate, useParams } from "react-router-dom";
 
-const BookingForm = ({ selectedBooking, isVisible, visibleClickHandler }) => {
+
+const BookingForm = () => {
   const [email, setEmail] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [reciept, setReciept] = useState([]);
 
-  const emailValidation = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValid = emailRegex.test(email);
-    if (isValid) setIsEmailValid(true);
+  const navigate = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+  }, []);
+
+  const saveBooking = async () => {
+    console.log(params.id);
+    console.log("This is the email:", email);
+    try {
+      const response = await axios.post(`${baseURL}/api/v1/booking/book`, {
+        id: params.id,
+        email: email
+      });
+      if (response.status === 201) {
+        setReciept(response.data);
+        console.log(reciept.data);
+      }
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    setEmail(event.target.elements.email.value);
-    emailValidation();
-    if (isEmailValid) {
-      // /api/v1/booking/book/{id}/{email}
-      // change available to red booked
-      visibleClickHandler();
+    console.log("emailValidation");
+    if (emailValidation) {
+      saveBooking();
+      console.log("saved booking")
+      navigate('/booking-list');
+    } else {
+      console.log('invalid email')
     }
+  };
+
+  const emailValidation = () => {
+    console.log('Lets validate!')
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   return (
     <div>
-      {isVisible && (
-        <div className="card">
-          <h3>Booking</h3>
-          <div className="mb-3 mt-3">
-            <label htmlFor="email" className="form-label">
-              Email:
-            </label>
-            <form onSubmit={submitHandler}>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="Enter email"
-                name="email"
-              />
-              {/* <div>{emailValidation ? "" : "Email is invalid"}</div> */}
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </form>
-          </div>
-          <div className="card mx-5 my-3">Booking Details</div>
-          {selectedBooking ? (
-            <>
-              <div>ID: {selectedBooking.id}</div>
-              <div>Date: {selectedBooking.dateTime}</div>
-              <div>Time: {selectedBooking.dateTime}</div>
-            </>
-          ) : (
-            <div>No booking selected</div>
-          )}
+      <div className="card">
+        <h3>Booking</h3>
+        <div className="mb-3 mt-3">
+          <label htmlFor="email" className="form-label">
+            Email:
+          </label>
+          <form onSubmit={submitHandler}>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              placeholder="Enter email"
+              name="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            {/* <div>{emailValidation ? "" : "Email is invalid"}</div> */}
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </form>
         </div>
-      )}
+        <div className="card mx-5 my-3">Booking Details</div>
+        <div>ID: {params.id}</div>
+      </div>
     </div>
   );
 };

@@ -9,9 +9,10 @@ import {
 } from "react-router-dom";
 import Header from "./Header";
 import Home from "./Home";
-import Booking from "./booking/Booking";
+import BookingList from "./booking/BookingList";
 import CancelBooking from "./CancelBooking";
 import About from "./About";
+import BookingForm from "./booking/BookingForm";
 
 const AppRoutes = () => {
   return (
@@ -20,8 +21,9 @@ const AppRoutes = () => {
         <Header />
         <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/cancel-booking" element={<CancelBooking />} />
+          <Route path="/booking-list" element={<BookingList />} />
+          <Route path='/bookingform/:id' element={<BookingForm />} />  
+          <Route path="/booking-cancel" element={<CancelBooking />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </Router>
