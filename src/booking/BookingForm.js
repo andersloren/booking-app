@@ -2,17 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { baseURL } from "../util/constants";
 import { useNavigate, useParams } from "react-router-dom";
+import regex from "../util/regex";
 
-const BookingForm = ({ onBookingSubmit, updateTrigger }) => {
+const BookingForm = ({ onBookingSubmit }) => {
+
+  const {emailValidation} = regex();
+
   const [email, setEmail] = useState("");
   const [reciept, setReciept] = useState([]);
   const [booking, setBooking] = useState();
+  const [done, setDone] = useState(false);
 
   const navigate = useNavigate();
   const params = useParams();
-
-  useEffect(() => {}, []);
-  const [done, setDone] = useState(false);
 
   const saveBooking = async () => {
     console.log(params.id);
@@ -35,7 +37,7 @@ const BookingForm = ({ onBookingSubmit, updateTrigger }) => {
   const submitHandler = (event) => {
     event.preventDefault();
     console.log("emailValidation");
-    if (emailValidation) {
+    if (emailValidation(email)) {
       saveBooking();
       console.log("saved booking");
       navigate("/booking-list");
@@ -44,11 +46,11 @@ const BookingForm = ({ onBookingSubmit, updateTrigger }) => {
     }
   };
 
-  const emailValidation = () => {
-    console.log("Lets validate!");
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  // const emailValidation = () => {
+  //   console.log("Lets validate!");
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   return emailRegex.test(email);
+  // };
 
   const getBooking = async () => {
     try {
@@ -65,13 +67,19 @@ const BookingForm = ({ onBookingSubmit, updateTrigger }) => {
     }
   };
 
-  useEffect(() => {
+  const detailsHandler = () => {
     getBooking();
-  }, [updateTrigger]);
+  };
+
+  useEffect(() => {
+  }, []);
 
   return (
     <div>
-      <div className="card container my-2 bg-light" style={{width: "500px"}}>
+      <button className="btn btn-info" onClick={detailsHandler}>
+        Details
+      </button>
+      <div className="card container my-2 bg-light" style={{ width: "500px" }}>
         <div className="container mx-2">
           <h4 className="pt-4">Booking</h4>
           <label htmlFor="email" className="form-label">
@@ -87,7 +95,6 @@ const BookingForm = ({ onBookingSubmit, updateTrigger }) => {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
             />
-            {/* <div>{emailValidation ? "" : "Email is invalid"}</div> */}
             <button type="submit" className="btn btn-success my-3">
               Book
             </button>
@@ -97,11 +104,13 @@ const BookingForm = ({ onBookingSubmit, updateTrigger }) => {
             ID: {params.id}
             <p></p>
             <div>
-              Date: <strong>{booking.date}</strong>
+              Date:{" "}
+              <strong>{done ? booking.date : "Click Details to see"}</strong>
             </div>
             <p></p>
             <div>
-              Time: <strong>{booking.time}</strong>
+              Time:{" "}
+              <strong>{done ? booking.time : "Click Details to see"}</strong>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const TimeSlot = ({ booking }) => {
+const TimeSlot = ({ onBookingSubmit, booking }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {

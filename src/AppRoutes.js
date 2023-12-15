@@ -20,19 +20,20 @@ const AppRoutes = () => {
   const handleBookingSubmit = () => {
     setBookingUpdateTrigger((prev) => prev + 1);
   };
+
   return (
     <div>
       <Router>
         <Header />
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route
             path="/booking-list"
-            element={<BookingList updateTrigger={bookingUpdateTrigger} />}
+            element={<BookingList updateTrigger={bookingUpdateTrigger}/>}
           />
           <Route
             path="/bookingform/:id"
-            element={<BookingForm onBookingSubmit={handleBookingSubmit} updateTrigger={bookingUpdateTrigger}/>}
+            element={<BookingForm onBookingSubmit={handleBookingSubmit}/>}
           />
           <Route path="/booking-cancel" element={<CancelBooking />} />
           <Route path="/about" element={<About />} />
