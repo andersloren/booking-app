@@ -4,14 +4,9 @@ import { useNavigate } from "react-router-dom";
 const TimeSlot = ({ booking }) => {
   const navigate = useNavigate();
 
-  useEffect
-    (() => {
-      console.log('a slot has been re-rendered')
-    },
-    [booking.booked]);
-
   const handleClick = () => {
     navigate("/bookingform/" + booking.id);
+    // booking.dateTime;
   };
 
   return (

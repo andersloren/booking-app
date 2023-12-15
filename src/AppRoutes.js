@@ -32,7 +32,7 @@ const AppRoutes = () => {
           />
           <Route
             path="/bookingform/:id"
-            element={<BookingForm onBookingSubmit={handleBookingSubmit} />}
+            element={<BookingForm onBookingSubmit={handleBookingSubmit} updateTrigger={bookingUpdateTrigger}/>}
           />
           <Route path="/booking-cancel" element={<CancelBooking />} />
           <Route path="/about" element={<About />} />
