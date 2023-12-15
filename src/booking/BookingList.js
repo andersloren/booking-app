@@ -3,7 +3,7 @@ import TimeSlot from "./TimeSlot";
 import { baseURL } from "../util/constants";
 import axios from "axios";
 
-const BookingList = () => {
+const BookingList = ({ updateTrigger }) => {
   const [bookings, setBookings] = useState([]);
 
   const formatDate = (date) => {
@@ -39,7 +39,7 @@ const BookingList = () => {
 
   useEffect(() => {
     getBookings();
-  }, []);
+  }, [updateTrigger]);
 
   return (
     <div>

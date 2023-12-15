@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { baseURL } from "../util/constants";
 
 const TimeSlot = ({ booking }) => {
   const navigate = useNavigate();
-  const [isBooked, setIsBooked] = useState(false);
 
   useEffect
     (() => {
@@ -15,21 +12,6 @@ const TimeSlot = ({ booking }) => {
 
   const handleClick = () => {
     navigate("/bookingform/" + booking.id);
-  };
-  
-  
-  const getBookings = async () => {
-    try {
-      const response = await axios.get(
-        `${baseURL}/api/v1/booking/details/${booking.id}}`
-      );
-      if (response.status === 200) {
-        setIsBooked(response.status);
-        console.log(isBooked);
-      }
-    } catch (error) {
-      console.error("Error fetching booking list:", error);
-    }
   };
 
   return (
@@ -41,11 +23,11 @@ const TimeSlot = ({ booking }) => {
         <div className="d-grid card-footer">
           <button
             type="button"
-            className={`btn btn-${isBooked ? "danger" : "success"}`}
+            className={`btn btn-${booking.booked ? "danger" : "success"}`}
             onClick={handleClick}
             disabled={booking.booked}
           >
-            {isBooked ? "Booked" : "Available"}
+            {booking.booked ? "Booked" : "Available"}
           </button>
         </div>
       </div>

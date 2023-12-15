@@ -3,7 +3,7 @@ import axios from "axios";
 import { baseURL } from "../util/constants";
 import { useNavigate, useParams } from "react-router-dom";
 
-const BookingForm = () => {
+const BookingForm = ({ onBookingSubmit }) => {
   const [email, setEmail] = useState("");
   const [reciept, setReciept] = useState([]);
 
@@ -21,6 +21,7 @@ const BookingForm = () => {
       if (response.status === 201) {
         setReciept(response.data);
         console.log(reciept);
+        onBookingSubmit();
       }
     } catch (error) {
       console.error("Error fetching bookings:", error);
